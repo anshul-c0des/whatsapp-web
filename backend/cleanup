@@ -1,0 +1,6 @@
+async function cleanupOldData() {
+  await ProcessedMessage.deleteMany({});
+  console.log('Old data cleaned up.');
+}
+
+  await cleanupOldData();
