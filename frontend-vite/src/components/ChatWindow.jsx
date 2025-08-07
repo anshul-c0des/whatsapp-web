@@ -3,7 +3,7 @@ import API from '../api.js';
 import MessageBubble from './MessageBubble.jsx';
 import MessageInput from './MessageInput.jsx';
 
-export default function ChatWindow({ wa_id, onNewMessage }) {
+export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
   const [messages, setMessages] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -58,8 +58,16 @@ export default function ChatWindow({ wa_id, onNewMessage }) {
 
   return (
     <div className="flex flex-col h-full">
+        <div className="md:hidden bg-white p-4 border-b flex items-center justify-between">
+            <button onClick={onBack} className="text-blue-600 font-medium">&larr; Back</button>
+            <div className="text-right">
+                <h2 className="text-md font-semibold">{userInfo?.name || wa_id}</h2>
+                <p className="text-sm text-gray-500">{wa_id}</p>
+            </div>
+        </div>
+
       {/* Header */}
-      <div className="p-4 border-b bg-white shadow">
+      <div className="hidden p-4 border-b bg-white shadow">
         <h2 className="text-lg font-semibold">
           {userInfo?.name || wa_id}
         </h2>

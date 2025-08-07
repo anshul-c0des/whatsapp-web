@@ -17,9 +17,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (wa_id) {
-      setActiveChat(wa_id);
-    }
+    setActiveChat(wa_id || null);
   }, [wa_id]);
 
   // Update chat list's last message after sending new message
@@ -65,12 +63,16 @@ export default function Home() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="w-1/3 border-r overflow-y-auto">
+      <div className={`w-full md:w-1/3 border-r overflow-y-auto ${activeChat ? 'hidden md:block' : 'block'}`}>
         <ChatList chats={chats} selectedWaId={activeChat} onSelectChat={handleSelectChat} />
       </div>
-      <div className="flex-1">
+      <div className={`w-full md:flex-1 ${activeChat ? 'block' : 'hidden md:block'}`}>
         {activeChat ? (
-          <ChatWindow wa_id={activeChat} onNewMessage={updateLastMessage} />
+          <ChatWindow
+            wa_id={activeChat}
+            onNewMessage={updateLastMessage}
+            onBack={() => navigate('/')}
+          />
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500">
             Select a chat to start messaging
