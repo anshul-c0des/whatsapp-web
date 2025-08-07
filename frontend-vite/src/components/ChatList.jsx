@@ -20,13 +20,13 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
   return (
     <div className="bg-white h-full divide-y">
       <div className="bg-white p-4 text-lg font-semibold">
-        <div className='text-[#25d366] text-2xl'>WhatsApp</div>
+        <div className='text-[#30b360] text-2xl'>WhatsApp</div>
         <div className='flex'>
           <IoIosSearch className='absolute left-6 mt-5' size={20} />
           <input
               type="text"
               placeholder="Search or start a new chat"
-              className="mt-3 pl-8 p-2 border rounded w-full rounded-full text-sm placeholder:font-normal bg-gray-100"
+              className="mt-3 pl-8 p-2 border rounded w-full rounded-full text-sm placeholder:font-normal bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#30b360]"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               />
@@ -40,9 +40,9 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
             <div
               key={chat.wa_id}
               onClick={() => onSelectChat(chat.wa_id)}
-              className={`cursor-pointer p-4 hover:bg-gray-100 transition ${
-                selectedWaId === chat.wa_id ? 'bg-gray-200' : ''
-              }`}
+              className={`cursor-pointer p-4 hover:bg-[#f1f0f0] transition ${
+                selectedWaId === chat.wa_id ? 'bg-[#f5f3f3]' : ''
+              } my-1 mx-3 rounded-md`}
             >
               <div className="flex flex-col">
                 <div className="flex justify-between items-start">

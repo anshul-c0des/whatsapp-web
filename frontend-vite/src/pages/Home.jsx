@@ -75,7 +75,12 @@ const updateLastMessage = (wa_id, newMessage) => {
           />
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500">
-            Select a chat to start messaging
+            <div
+              className="h-full w-full bg-cover bg-center"
+              style={{ backgroundImage: "url('/home_bg.jpg')" }}
+            >
+            <p className='text-5xl text-white font-bold text-center mt-10'>Select a chat to start messaging</p>
+            </div>
           </div>
         )}
       </div>

@@ -87,7 +87,7 @@ export default function MessageInput({ onSend }) {
       {text.trim() && (
         <button
           type="submit"
-          className="absolute right-4 bottom-4 bg-whatsapp-light text-white px-2 py-2 rounded-full"
+          className="absolute right-4 bottom-4 bg-whatsapp-light text-white px-2 py-2 rounded-full hover:bg-[#33dc71]"
         >
           <RiSendPlane2Fill size={23} />
         </button>
