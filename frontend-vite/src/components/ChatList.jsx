@@ -20,7 +20,7 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
   return (
     <div className="bg-white h-full divide-y">
       <div className="bg-white p-4 text-lg font-semibold">
-        <div className='text-whatsapp-light text-2xl'>WhatsApp</div>
+        <div className='text-[#25d366] text-2xl'>WhatsApp</div>
         <div className='flex'>
           <IoIosSearch className='absolute left-6 mt-5' size={20} />
           <input

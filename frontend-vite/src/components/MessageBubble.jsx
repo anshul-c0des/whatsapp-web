@@ -5,7 +5,7 @@ import { TiTick } from "react-icons/ti";
 
 export default function MessageBubble({ message, self }) {
   const bubbleClass = self
-    ? 'bg-green-100 text-right ml-auto'
+    ? 'bg-[#DCF8C6] text-right ml-auto'
     : 'bg-white text-left mr-auto';
   
   const formattedDateTime = moment(message.timestamp).format('h:mm A');

@@ -4,6 +4,7 @@ import MessageBubble from './MessageBubble.jsx';
 import MessageInput from './MessageInput.jsx';
 import { IoArrowBack } from "react-icons/io5";
 import { PiUserCircleDuotone } from "react-icons/pi";
+import moment from 'moment';
 
 export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
   const [messages, setMessages] = useState([]);
@@ -58,6 +59,16 @@ const handleSendMessage = async (text) => {
   }
 };
 
+const formatDay = (timestamp) => {
+  const now = moment();
+  const date = moment(timestamp);
+
+  if (now.isSame(date, 'day')) return 'Today';
+  if (now.clone().subtract(1, 'day').isSame(date, 'day')) return 'Yesterday';
+  return date.format('DD/MM/YYYY');
+};
+
+
   return (
     <div
       className="flex flex-col h-full"
@@ -94,13 +105,31 @@ const handleSendMessage = async (text) => {
         {messages.length === 0 ? (
           <p className="text-gray-500">No messages yet</p>
         ) : (
-          messages.map((msg) => (
-            <MessageBubble
-              key={msg.message_id || msg._id}
-              message={msg}
-              self={msg.from === '918329446654'} // assuming this is "you"
-            />
-          ))
+          (() => {
+            let lastDate = null;
+          
+            return messages.map((msg) => {
+              const msgDate = moment(msg.timestamp).format('YYYY-MM-DD');
+              const showDateBadge = msgDate !== lastDate;
+              lastDate = msgDate;
+          
+              return (
+                <React.Fragment key={msg.message_id || msg._id}>
+                  {showDateBadge && (
+                    <div className="flex justify-center my-4">
+                      <span className="bg-white text-gray-800 text-xs px-2 py-1 rounded-md shadow-sm border">
+                        {formatDay(msg.timestamp)}
+                      </span>
+                    </div>
+                  )}
+                  <MessageBubble
+                    message={msg}
+                    self={msg.from === '918329446654'}
+                  />
+                </React.Fragment>
+              );
+            });
+          })()          
         )}
       </div>
 
