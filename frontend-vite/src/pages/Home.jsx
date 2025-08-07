@@ -9,7 +9,7 @@ export default function Home() {
 
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
-
+    
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chats`)
       .then(res => res.json())
@@ -21,39 +21,39 @@ export default function Home() {
   }, [wa_id]);
 
   // Update chat list's last message after sending new message
-  const updateLastMessage = (wa_id, newMessage) => {
-    setChats((prevChats) => {
-      const chatExists = prevChats.some(chat => chat.wa_id === wa_id);
-      
-      if (!chatExists) {
-        // Add new chat if doesn't exist
-        return [
-          ...prevChats,
-          {
-            wa_id,
-            name: 'Anonymous',
-            lastMessage: {
-              text: newMessage.text,
-              timestamp: newMessage.timestamp,
-              status: newMessage.status || 'sent',
-            }
-          }
-        ];
-      }
-      return prevChats.map(chat =>
-        chat.wa_id === wa_id
-          ? {
-              ...chat,
-              lastMessage: {
-                text: newMessage.text,
-                timestamp: newMessage.timestamp,
-                status: newMessage.status || 'sent',
-              }
-            }
-          : chat
-      );
-    });
-  };
+const updateLastMessage = (wa_id, newMessage) => {
+  setChats(prevChats => {
+    // 1. Find the chat that was just updated
+    const chatIndex = prevChats.findIndex(chat => chat.wa_id === wa_id);
+
+    // 2. Prepare the new last message data
+    const newLastMessage = {
+      text: newMessage.text,
+      timestamp: newMessage.timestamp,
+      status: newMessage.status || 'sent',
+    };
+
+    let updatedChats;
+    if (chatIndex !== -1) {
+      // 3. If chat exists, update its last message and move it to the top
+      const updatedChat = {
+        ...prevChats[chatIndex],
+        lastMessage: newLastMessage
+      };
+      const otherChats = prevChats.filter(chat => chat.wa_id !== wa_id);
+      updatedChats = [updatedChat, ...otherChats];
+    } else {
+      // 4. If it's a new chat, create it and add it to the top
+      const newChat = {
+        wa_id,
+        name: newMessage.name || wa_id,
+        lastMessage: newLastMessage
+      };
+      updatedChats = [newChat, ...prevChats];
+    }
+    return updatedChats;
+  });
+};
 
   // Handle chat selection from chatlist
   const handleSelectChat = (wa_id) => {

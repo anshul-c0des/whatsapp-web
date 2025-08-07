@@ -5,7 +5,19 @@ export default {
       "./src/**/*.{js,jsx}"
     ],
     theme: {
-      extend: {},
+      extend: {
+        colors: {
+          whatsapp: {
+            light: '#25D366',
+            dark: '#075E54',
+            bg: '#ECE5DD',
+            sent: '#DCF8C6'
+          }
+        },
+        fontFamily: {
+          sans: ['Roboto', 'Helvetica Neue', 'sans-serif']
+        }
+      }
     },
     plugins: [],
   }
