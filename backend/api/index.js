@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const messageRoutes = require('../routes/messageRoutes');
+const messageRoutes = require('../routes/messageRoutes.js');
 
 const app = express();
 app.use(cors());    
@@ -31,7 +31,7 @@ app.get('/api/ping', async (req, res) => {
 
 app.use('/api', async (req, res, next) => {
   await connectDB();
-  await messageRoutes(req, res, next);  
+  messageRoutes(req, res, next);  
 });
 
 module.exports = app;

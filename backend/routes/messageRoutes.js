@@ -1,6 +1,6 @@
-  const express = require('express');
-  const router = express.Router();
-  const ProcessedMessage = require('../models/processedMessage');
+const express = require('express');
+const router = express.Router();
+const ProcessedMessage = require('../models/processedMessage');
 
   // GET /api/chats
 
