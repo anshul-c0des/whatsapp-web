@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { RiSendPlane2Fill } from 'react-icons/ri';
-import { BsEmojiSmileFill } from "react-icons/bs";
+import { PiStickerBold } from "react-icons/pi";
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 
@@ -89,7 +89,7 @@ export default function MessageInput({ onSend }) {
           ref={divRef}
           contentEditable
           onInput={handleChange}
-          className="w-full border bg-white px-11 pr-14 py-3 outline-none resize-none transition-all"
+          className="w-full bg-white px-11 pr-14 py-3 outline-none resize-none transition-all dark:bg-[#252a30] dark:text-white"
           style={{
             overflow: 'hidden',
             minHeight: '40px',
@@ -112,9 +112,9 @@ export default function MessageInput({ onSend }) {
         <button
           type="button"
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-          className="absolute left-2.5 bottom-3 font-bold text-gray-500 hover:text-green-600"
+          className="absolute left-2.5 bottom-3 font-bold text-gray-500 hover:text-green-600 dark:text-gray-200"
         >
-          <BsEmojiSmileFill size={27} />
+          <PiStickerBold size={27} />
         </button>
 
         {/* Emoji Picker */}
@@ -128,9 +128,9 @@ export default function MessageInput({ onSend }) {
         {text.trim() && (
           <button
             type="submit"
-            className="absolute right-2 bottom-1.5 bg-whatsapp-light text-white p-2 rounded-full hover:bg-[#33dc71]"
+            className="absolute right-2 bottom-1.5 bg-whatsapp-light text-white p-2 rounded-full hover:bg-[#33dc71] dark:bg-[#46cd41] dark:hover:bg-[#33a130] dark:text-black"
           >
-            <RiSendPlane2Fill size={20} />
+            <RiSendPlane2Fill size={22} />
           </button>
         )}
       </div>

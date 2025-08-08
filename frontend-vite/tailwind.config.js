@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class',
     content: [
       "./index.html",
       "./src/**/*.{js,jsx}"
@@ -9,7 +10,7 @@ export default {
         colors: {
           whatsapp: {
             light: '#25D366',
-            dark: '#075E54',
+            dark: '#46cd41',
             bg: '#ECE5DD',
             sent: '#DCF8C6'
           }

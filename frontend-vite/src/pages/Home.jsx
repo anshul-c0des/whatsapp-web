@@ -3,6 +3,8 @@ import ChatList from '../components/ChatList';
 import ChatWindow from '../components/ChatWindow';
 import { useParams, useNavigate } from 'react-router-dom';
 import SelectChat from '../components/SelectChat';
+import DarkModeToggle from '../components/DarkModeToggle';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
   const { wa_id } = useParams();
@@ -19,17 +21,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (wa_id) {
-      setActiveChat(wa_id);
-    } else {
-      setActiveChat(null);
-    }
-    // if (hasRefreshed) {
-    //   setActiveChat(null);
-    //   setHasRefreshed(false);
+    // if (wa_id) {
+    //   setActiveChat(wa_id);
     // } else {
-    //   setActiveChat(wa_id || null);
+    //   setActiveChat(null);
     // }
+    if (hasRefreshed) {
+      setActiveChat(null);
+      setHasRefreshed(false);
+    } else {
+      setActiveChat(wa_id || null);
+    }
   }, [wa_id]);
 
   // Update chat list's last message after sending new message
@@ -74,21 +76,24 @@ const updateLastMessage = (wa_id, newMessage) => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className={`w-full md:w-1/3 border-r overflow-y-auto ${activeChat ? 'hidden md:block' : 'block'}`}>
-        <ChatList chats={chats} selectedWaId={activeChat} onSelectChat={handleSelectChat} />
+    <>
+      <div className="flex h-screen bg-gray-100 font-sans">
+        <Sidebar className="hidden md:block" />
+        <div className={`w-full md:w-[40%] border-r dark:border-gray-700 overflow-y-auto ${activeChat ? 'hidden md:block' : 'block'}`}>
+          <ChatList chats={chats} selectedWaId={activeChat} onSelectChat={handleSelectChat} /> 
+        </div>
+        <div className={`w-full md:flex-1 ${activeChat ? 'block' : 'hidden md:block'}`}>
+          {activeChat ? (
+            <ChatWindow
+              wa_id={activeChat}
+              onNewMessage={updateLastMessage}
+              onBack={() => navigate('/')}
+            />
+          ) : (
+            <SelectChat />
+          )}
+        </div>
       </div>
-      <div className={`w-full md:flex-1 ${activeChat ? 'block' : 'hidden md:block'}`}>
-        {activeChat ? (
-          <ChatWindow
-            wa_id={activeChat}
-            onNewMessage={updateLastMessage}
-            onBack={() => navigate('/')}
-          />
-        ) : (
-          <SelectChat />
-        )}
-      </div>
-    </div>
+    </>
   );
 }

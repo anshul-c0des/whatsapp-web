@@ -5,6 +5,7 @@ import MessageInput from './MessageInput.jsx';
 import { IoArrowBack } from "react-icons/io5";
 import { PiUserCircleDuotone } from "react-icons/pi";
 import moment from 'moment';
+import DarkModeToggle from './DarkModeToggle.jsx';
 
 export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
   const [messages, setMessages] = useState([]);
@@ -65,32 +66,40 @@ const formatDay = (timestamp) => {
 
   if (now.isSame(date, 'day')) return 'Today';
   if (now.clone().subtract(1, 'day').isSame(date, 'day')) return 'Yesterday';
-  return date.format('DD/MM/YYYY');
+  return date.format('D/M/YYYY');
 };
 
 
   return (
     <div
-      className="flex flex-col h-full"
-      style={{
-        backgroundImage: 'url(/chat_bg.webp)', 
-        backgroundSize: 'cover', 
-        backgroundPosition: 'center', 
-      }}
+    className={`
+      flex flex-col h-full
+      bg-[url('/chat_bg.webp')]
+      dark:bg-[url('/dark_bg.jpg')]
+      bg-cover bg-center
+    `}
     >
-      <div className="md:hidden bg-white p-4 border-b flex items-center">
-        <button onClick={onBack} className="text-green-600 "><IoArrowBack size={30} /></button>
-        <div className='flex'>
-        <PiUserCircleDuotone size={45} className='mr-2' />
-        <div className="text-right">
-          <h2 className="text-md font-semibold">{userInfo?.name || wa_id}</h2>
-          <p className="text-sm text-gray-500">{wa_id}</p>
-        </div>
+      {/* Mobile */}
+      <div className="md:hidden bg-white p-4 flex items-center dark:bg-[#0b141a] dark:text-white">
+        <div className="flex items-center justify-between p-2 w-full">
+          <div className="flex items-center space-x-3">
+            <button onClick={onBack} className="text-green-600">
+              <IoArrowBack size={30} />
+            </button>
+            <div className="flex items-center">
+              <PiUserCircleDuotone size={45} className="mr-2" />
+              <div>
+                <h2 className="text-md font-semibold">{userInfo?.name || wa_id}</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-300">{wa_id}</p>
+              </div>
+            </div>
+          </div>
+          <DarkModeToggle />
         </div>
       </div>
 
       {/* Header */}
-      <div className="hidden p-3 border-b bg-white shadow-md md:flex">
+      <div className="hidden p-3 bg-white shadow-md md:flex dark:bg-[#0b141a] dark:text-white">
       <PiUserCircleDuotone size={45} className='mr-2' />
       <div>
         <h2 className="text-md font-bold">
@@ -117,7 +126,7 @@ const formatDay = (timestamp) => {
                 <React.Fragment key={msg.message_id || msg._id}>
                   {showDateBadge && (
                     <div className="flex justify-center my-4">
-                      <span className="bg-white text-gray-800 text-xs px-2 py-1 rounded-md shadow-sm border">
+                      <span className="bg-white text-gray-800 text-xs font-bold px-3 py-1 rounded-md shadow-sm dark:bg-gray-900 dark:text-gray-400">
                         {formatDay(msg.timestamp)}
                       </span>
                     </div>
