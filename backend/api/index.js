@@ -5,10 +5,12 @@ const messageRoutes = require('../routes/messageRoutes');
 
 const app = express();
 
+// ✅ CORS configuration
 app.use(cors({
   origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app',
   credentials: false,
 }));
+
 app.use(express.json());
 
 let isConnected = false;
@@ -34,10 +36,7 @@ app.get('/api/ping', async (req, res) => {
 
 app.use('/api', async (req, res, next) => {
   await connectDB();
-  next();
+  messageRoutes(req, res, next);
 });
 
-app.use('/api', messageRoutes);
-
-const serverless = require('serverless-http');
-module.exports = serverless(app);
+module.exports = app;

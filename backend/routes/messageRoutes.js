@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ProcessedMessage = require('../models/processedMessage');
 
-  // GET /api/chats
-
+// GET /api/chats
 router.get('/chats', async (req, res) => {
   try {
     const lastMessages = await ProcessedMessage.aggregate([
@@ -26,39 +25,32 @@ router.get('/chats', async (req, res) => {
         }
       }
     ]);
-
     res.json(lastMessages);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-  // GET /api/chats/:wa_id
-  router.get('/chats/:wa_id', async (req, res) => {
-    try {
-      const wa_id = req.params.wa_id;
+// GET /api/chats/:wa_id
+router.get('/chats/:wa_id', async (req, res) => {
+  try {
+    const wa_id = req.params.wa_id;
+    const messages = await ProcessedMessage.find({ wa_id }).sort({ timestamp: 1 });
+    const user = {
+      wa_id,
+      name: messages.find(m => m.name)?.name || 'Unknown'
+    };
+    res.json({ user, messages });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-      // Fetch all messages for the specific wa_id, sorted by timestamp
-      const messages = await ProcessedMessage.find({ wa_id }).sort({ timestamp: 1 });
-
-      // Check if there are messages and retrieve the name from the first one
-      const user = {
-        wa_id,
-        name: messages.find(m => m.name)?.name || 'Unknown'
-      };
-
-      res.json({ user, messages });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-
-  // POST /api/messages
+// POST /api/messages
 router.post('/messages', async (req, res) => {
   try {
-    const { wa_id, from, to, text, type, name } = req.body; // <-- Include 'name' here
-
-    const nameToSet = name || wa_id; // Use the name from the request or fall back to wa_id
+    const { wa_id, from, to, text, type, name } = req.body;
+    const nameToSet = name || wa_id;
 
     const newMsg = new ProcessedMessage({
       wa_id,
@@ -69,7 +61,7 @@ router.post('/messages', async (req, res) => {
       timestamp: new Date(),
       message_id: "msg_" + Date.now(),
       status: "sent",
-      name: nameToSet, 
+      name: nameToSet,
     });
 
     const saved = await newMsg.save();
@@ -79,4 +71,7 @@ router.post('/messages', async (req, res) => {
   }
 });
 
-module.exports = router;
+// Export a function that forwards requests to the router
+module.exports = (req, res, next) => {
+  router(req, res, next);
+};
