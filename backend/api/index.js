@@ -1,17 +1,18 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const messageRoutes = require('../routes/messageRoutes.js');
+const mongoose = require('mongoose');
+const messageRoutes = require('../routes/messageRoutes');
 
 const app = express();
+
 app.use(cors({
-    origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app/',  
-    credentials: false,
-  }));    
+  origin: 'https://whatsapp-irl7okz2g-anshuls-projects-ad041669.vercel.app',
+  credentials: false
+}));
+
 app.use(express.json());
 
 let isConnected = false;
-
 async function connectDB() {
   if (isConnected) return;
   await mongoose.connect(process.env.MONGO_URI, {
@@ -22,18 +23,16 @@ async function connectDB() {
   console.log('MongoDB connected');
 }
 
+await connectDB();
+
 app.get('/', (req, res) => {
-    res.send('Backend is up and running');
+  res.send('Backend is up and running');
 });
 
-app.get('/api/ping', async (req, res) => {
-  await connectDB();
+app.get('/api/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
 
-app.use('/', async (req, res, next) => {
-  await connectDB();
-  messageRoutes(req, res, next);  
-});
+app.use('/api', messageRoutes);
 
 module.exports = app;
