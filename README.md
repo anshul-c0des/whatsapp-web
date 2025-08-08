@@ -69,14 +69,14 @@ Open http://localhost:3000 (or the port shown) in your browser.
 ---
 
 ## Features
-- ✅ Responsive UI mimicking WhatsApp Web, including mobile view
-- ✅ Chat list with search functionality
-- ✅ Chat window with message input supporting emojis and dynamic textarea
-- ✅ Realistic timestamps using moment.js
-- ✅ Clean UI with Tailwind CSS and React Icons
-- ✅ Navigation using React Router and URL params
-- ✅ Basic message sending with UI update in chat list
+✅ Responsive UI mimicking WhatsApp Web, including mobile view
+✅ Chat list with search functionality
+✅ Chat window with message input supporting emojis and dynamic textarea
+✅ Realistic timestamps using moment.js
+✅ Clean UI with Tailwind CSS and React Icons
+✅ Navigation using React Router and URL params
+✅ Basic message sending with UI update in chat list
 
 ---
 
-# Live Demo(https://whatsapp-web-tau.vercel.app/chat/929967673820)
+## [Live Demo](https://whatsapp-web-tau.vercel.app/chat/929967673820)
