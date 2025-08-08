@@ -34,8 +34,10 @@ app.get('/api/ping', async (req, res) => {
 
 app.use('/api', async (req, res, next) => {
   await connectDB();
-  messageRoutes(req, res, next);
+  next();
 });
+
+app.use('/api', messageRoutes);
 
 const serverless = require('serverless-http');
 module.exports = serverless(app);

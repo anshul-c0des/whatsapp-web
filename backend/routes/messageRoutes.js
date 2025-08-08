@@ -79,6 +79,4 @@ router.post('/messages', async (req, res) => {
   }
 });
 
-module.exports = (req, res, next) => {
-  router(req, res, next);
-};
+module.exports = router;
