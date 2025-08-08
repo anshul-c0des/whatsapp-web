@@ -27,7 +27,7 @@ app.get('/api/ping', async (req, res) => {
 
 app.use('/api', async (req, res, next) => {
   await connectDB();
-  messageRoutes(req, res, next);  // call the route handler
+  await messageRoutes(req, res, next);  
 });
 
 module.exports = app;
