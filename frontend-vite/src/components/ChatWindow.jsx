@@ -114,7 +114,7 @@ export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
       {/* Message Area */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
         {loading ? (
-          <div className="flex justify-center items-center h-full p-10 bg-white dark:bg-[#0b141a]">
+          <div className="flex justify-center items-center h-full p-10 bg-transparent">
             <MoonLoader color="#22c55e" size={50} />
           </div>
         ) : messages.length === 0 ? (
