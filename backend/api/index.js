@@ -12,6 +12,8 @@ credentials: false
 
 app.use(express.json());
 
+app.options('*', cors());
+
 let isConnected = false;
 async function connectDB() {
 if (isConnected) return;
