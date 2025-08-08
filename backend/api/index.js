@@ -6,7 +6,7 @@ const messageRoutes = require('../routes/messageRoutes');
 const app = express();
 
 app.use(cors({
-  origin: 'https://whatsapp-irl7okz2g-anshuls-projects-ad041669.vercel.app',
+  origin: '*',
   credentials: false
 }));
 
