@@ -4,10 +4,11 @@ const cors = require('cors');
 const messageRoutes = require('../routes/messageRoutes.js');
 
 const app = express();
+
 app.use(cors({
-    origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app/',  
-    credentials: false,
-  }));    
+  origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app',
+  credentials: true,
+}));
 app.use(express.json());
 
 let isConnected = false;
@@ -23,7 +24,7 @@ async function connectDB() {
 }
 
 app.get('/', (req, res) => {
-    res.send('Backend is up and running');
+  res.send('Backend is up and running');
 });
 
 app.get('/api/ping', async (req, res) => {
@@ -33,7 +34,8 @@ app.get('/api/ping', async (req, res) => {
 
 app.use('/', async (req, res, next) => {
   await connectDB();
-  messageRoutes(req, res, next);  
+  messageRoutes(req, res, next);
 });
 
-module.exports = app;
+const serverless = require('serverless-http');
+module.exports = serverless(app);
