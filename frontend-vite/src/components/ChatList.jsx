@@ -8,14 +8,19 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
   const [searchTerm, setSearchTerm] = useState('');
   
    // Filter chats by search
-  const filteredChats = chats.filter(chat => {
+  const filteredChats =  chats
+  .filter(chat => {
     const searchLower = searchTerm.toLowerCase();
     const name = (chat.name || "").toLowerCase();
     const number = (chat.wa_id || "").toLowerCase();
-    return name.includes(searchLower) || number.includes(searchLower);  
+    return name.includes(searchLower) || number.includes(searchLower);
   })
+  .sort((a, b) => {
+    const aTime = new Date(a.lastMessage?.timestamp || 0).getTime();
+    const bTime = new Date(b.lastMessage?.timestamp || 0).getTime();
+    return bTime - aTime;
+  });
   
-  console.log(chats);
   
   return (
     <div className="bg-white h-full dark:bg-[#0b141a] dark:text-white">
@@ -26,7 +31,7 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
           <input
               type="text"
               placeholder="Search or start a new chat"
-              className="mt-2.5 mx-1 pl-12 p-2.5 w-full rounded-full text-sm placeholder:font-normal bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#30b360] dark:bg-[#252a30] dark:focus:bg-[#0b141a]"
+              className="mt-3 mx-1.5 pl-11 p-2 w-full rounded-full text-sm placeholder:font-normal bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#30b360] dark:bg-[#252a30] dark:focus:bg-[#0b141a]"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               />
@@ -40,7 +45,7 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
             <div
               key={chat.wa_id}
               onClick={() => onSelectChat(chat.wa_id)}
-              className={`cursor-pointer p-4 transition my-1 mx-3 rounded-md
+              className={`cursor-pointer p-4 transition my-1 mx-3 rounded-xl
                 hover:bg-[#f1f0f0] dark:hover:bg-gray-700
                 ${selectedWaId === chat.wa_id
                   ? 'bg-[#f5f3f3] dark:bg-gray-800'
@@ -49,8 +54,8 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
               <div className="flex flex-col">
                 <div className="flex justify-between items-start">
                   <div className='flex -mt-1'>
-                    <PiUserCircleDuotone className="text-gray-500 pr-1" size={50} />
-                    <div className='mt-2'>
+                    <PiUserCircleDuotone className="text-gray-500 pr-1" size={55  } />
+                    <div className='mt-1.5 ml-0.5'>
                       <h3 className="font-medium">{chat.name || chat.wa_id}</h3>  
                     </div>
                   </div>
@@ -58,7 +63,7 @@ export default function ChatList({ chats, selectedWaId, onSelectChat }) {
                     {chat.lastMessage?.timestamp ? moment(chat.lastMessage.timestamp).fromNow() : ''}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 truncate ml-12 -mt-6 dark:text-gray-400">
+                <p className="text-sm text-gray-600 truncate ml-14 -mt-6 dark:text-gray-400">
                   {chat.lastMessage?.text || 'No message'}
                 </p>
               </div>

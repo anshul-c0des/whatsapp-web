@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon } from 'react-icons/fa';
+import { MdLightMode } from "react-icons/md";
 
 export default function DarkModeToggle({className}) {
   const [darkMode, setDarkMode] = useState(() => {
@@ -23,7 +24,7 @@ export default function DarkModeToggle({className}) {
       className={`${className} ml-3 p-2 text-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition"
       title="Toggle dark mode`}
     >
-      {darkMode ? <FaSun /> : <FaMoon />}
+      {darkMode ? <MdLightMode size={24} /> : <FaMoon />}
     </button>
   );
 }
