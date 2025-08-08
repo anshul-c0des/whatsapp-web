@@ -19,7 +19,6 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 // Sample route
-
 app.get('/api/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
