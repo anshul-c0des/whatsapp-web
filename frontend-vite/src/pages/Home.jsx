@@ -3,8 +3,8 @@ import ChatList from '../components/ChatList';
 import ChatWindow from '../components/ChatWindow';
 import { useParams, useNavigate } from 'react-router-dom';
 import SelectChat from '../components/SelectChat';
-import DarkModeToggle from '../components/DarkModeToggle';
 import Sidebar from '../components/Sidebar';
+import API from '../api';
 
 export default function Home() {
   const { wa_id } = useParams();
@@ -15,7 +15,7 @@ export default function Home() {
   const [hasRefreshed, setHasRefreshed] = useState(true);
     
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chats`)
+    API.get('/api/chats')
       .then(res => res.json())
       .then(data => setChats(data));
   }, []);
