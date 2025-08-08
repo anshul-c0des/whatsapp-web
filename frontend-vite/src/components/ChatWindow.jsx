@@ -13,7 +13,7 @@ export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
 
   const fetchMessages = async () => {
     try {
-      const res = await API.get(`/api/chats/${wa_id}/messages`);
+      const res = await API.get(`/api/chats/${wa_id}`);
       const { messages, user } = res.data;
 
       setMessages(messages || []);
