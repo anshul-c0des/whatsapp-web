@@ -7,7 +7,7 @@ const app = express();
 
 // ✅ CORS configuration
 app.use(cors({
-  origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app',
+  origin: 'https://whatsapp-37l02ngcn-anshuls-projects-ad041669.vercel.app',
   credentials: false,
 }));
 
@@ -34,7 +34,7 @@ app.get('/api/ping', async (req, res) => {
   res.json({ message: 'pong' });
 });
 
-app.use('/api', async (req, res, next) => {
+app.use('/', async (req, res, next) => {
   await connectDB();
   messageRoutes(req, res, next);
 });
