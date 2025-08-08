@@ -7,7 +7,7 @@ const app = express();
 
 app.use(cors({
   origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app',
-  credentials: true,
+  credentials: false,
 }));
 app.use(express.json());
 
@@ -32,7 +32,7 @@ app.get('/api/ping', async (req, res) => {
   res.json({ message: 'pong' });
 });
 
-app.use('/', async (req, res, next) => {
+app.use('/api', async (req, res, next) => {
   await connectDB();
   messageRoutes(req, res, next);
 });
