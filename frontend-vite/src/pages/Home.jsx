@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChatList from '../components/ChatList';
 import ChatWindow from '../components/ChatWindow';
 import { useParams, useNavigate } from 'react-router-dom';
+import SelectChat from '../components/SelectChat';
 
 export default function Home() {
   const { wa_id } = useParams();
@@ -9,6 +10,7 @@ export default function Home() {
 
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
+  const [hasRefreshed, setHasRefreshed] = useState(true);
     
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chats`)
@@ -17,7 +19,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setActiveChat(wa_id || null);
+    // if (wa_id) {
+    //   setActiveChat(wa_id);
+    // } else {
+    //   setActiveChat(null);
+    // }
+    if (hasRefreshed) {
+      setActiveChat(null);
+      setHasRefreshed(false);
+    } else {
+      setActiveChat(wa_id || null);
+    }
   }, [wa_id]);
 
   // Update chat list's last message after sending new message
@@ -74,14 +86,7 @@ const updateLastMessage = (wa_id, newMessage) => {
             onBack={() => navigate('/')}
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            <div
-              className="h-full w-full bg-cover bg-center"
-              style={{ backgroundImage: "url('/home_bg.jpg')" }}
-            >
-            <p className='text-5xl text-white font-bold text-center mt-10'>Select a chat to start messaging</p>
-            </div>
-          </div>
+          <SelectChat />
         )}
       </div>
     </div>
