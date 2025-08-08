@@ -8,7 +8,7 @@ const app = express();
 // ✅ CORS configuration
 app.use(cors({
   origin: 'https://whatsapp-37l02ngcn-anshuls-projects-ad041669.vercel.app',
-  credentials: false,
+  credentials: true,
 }));
 
 app.use(express.json());
