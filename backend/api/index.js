@@ -20,6 +20,10 @@ async function connectDB() {
   console.log('MongoDB connected');
 }
 
+app.get('/', (req, res) => {
+    res.send('Backend is up and running');
+});
+
 app.get('/api/ping', async (req, res) => {
   await connectDB();
   res.json({ message: 'pong' });
