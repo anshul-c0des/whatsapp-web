@@ -39,8 +39,3 @@ app.use('/api', async (req, res, next) => {
 });
 
 module.exports = app;
-
-app.use((req, res, next) => {
-  console.warn(`[404] ${req.method} ${req.originalUrl}`);
-  res.status(404).json({ error: `No route: ${req.originalUrl}` });
-});
