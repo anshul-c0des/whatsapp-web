@@ -79,7 +79,7 @@ export default function Home() {
         <Sidebar className="hidden md:block" />
         <div className={`w-full md:w-[40%] border-r dark:border-gray-700 overflow-y-auto ${activeChat ? 'hidden md:block' : 'block'}`}>
           {loading ? (
-            <div className="flex justify-center items-center h-full p-10 bg-transparent">
+            <div className="flex justify-center items-center h-full p-10 bg-transparent dark:bg-[#0b141a]">
               <MoonLoader color="#22c55e" size={50} />
             </div>
           ) : (
