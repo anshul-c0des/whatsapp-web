@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { RiSendPlane2Fill } from 'react-icons/ri';
+import { BsEmojiSmileFill } from "react-icons/bs";
+import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
 
 export default function MessageInput({ onSend }) {
   const [text, setText] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const divRef = useRef(null);
 
   const handleSubmit = (e) => {
@@ -10,44 +14,63 @@ export default function MessageInput({ onSend }) {
     if (!text.trim()) return;
     onSend(text.trim());
     setText('');
-
     if (divRef.current) {
       divRef.current.innerText = '';
-      divRef.current.style.height = '50px'; // Reset height to default
-      divRef.current.classList.add('rounded-full'); // Reset border-radius
+      divRef.current.style.height = '50px';
+      divRef.current.classList.add('rounded-full');
       divRef.current.classList.remove('rounded-xl');
     }
   };
 
-  const handleChange = (e) => {
-    setText(e.target.innerText);
+  const handleChange = () => {
+    setText(divRef.current.innerText);
+  };
+
+  const handleEmojiSelect = (emoji) => {
+    const emojiChar = emoji.native;
+    const div = divRef.current;
+    const selection = window.getSelection();
+
+    if (div && selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+
+      const emojiNode = document.createTextNode(emojiChar);
+      range.insertNode(emojiNode);
+
+      range.setStartAfter(emojiNode);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      setText(div.innerText);
+      div.focus();
+    }
   };
 
   useEffect(() => {
     if (divRef.current) {
-      // Reset height to auto to calculate scrollHeight properly
       divRef.current.style.height = 'auto';
-      // Set the height based on scrollHeight to dynamically adjust to the content
       divRef.current.style.height = `${divRef.current.scrollHeight}px`;
 
-      // Apply rounded-lg when height grows above 72px, else keep it rounded-full
       if (divRef.current.scrollHeight > 62) {
-        divRef.current.classList.remove('rounded-full'); // Remove full rounding
-        divRef.current.classList.add('rounded-xl');      // Apply medium rounding
+        divRef.current.classList.remove('rounded-full');
+        divRef.current.classList.add('rounded-xl');
       } else {
-        divRef.current.classList.remove('rounded-xl');  // Remove medium rounding
-        divRef.current.classList.add('rounded-full');    // Apply full rounding
+        divRef.current.classList.remove('rounded-xl');
+        divRef.current.classList.add('rounded-full');
       }
     }
   }, [text]);
 
-  // Ensure initial height is set properly when component mounts
   useEffect(() => {
     if (divRef.current) {
       divRef.current.style.height = '50px';
       divRef.current.classList.add('rounded-full');
     }
   }, []);
+
   useEffect(() => {
     const div = divRef.current;
     if (div && !text) {
@@ -58,40 +81,59 @@ export default function MessageInput({ onSend }) {
   }, [text]);
 
   return (
-    <form onSubmit={handleSubmit} className="relative p-3 bg-transparent flex">
-      <div
-        ref={divRef}
-        contentEditable
-        className="flex-1 border px-4 py-3 outline-none resize-none transition-all"
-        placeholder="Type a message..."
-        onInput={handleChange}
-        style={{
-          backgroundColor: 'white',
-          overflow: 'hidden',
-          minHeight: '40px', 
-          maxHeight: '160px', 
-          whiteSpace: 'pre-wrap',
-          paddingRight: '45px',
-          transition: 'border-radius 0.2s ease'
-        }}
-      />
-      {text.trim() === '' && (
-        <div
-          className="absolute left-7 top-1/2 transform -translate-y-1/2 text-gray-400"
-          style={{ pointerEvents: 'none' }}
-        >
-          Type a message
-        </div>
-      )}
+    <form onSubmit={handleSubmit} className="relative p-3 bg-transparent flex items-end">
+      <div className="relative flex-1">
 
-      {text.trim() && (
+        {/* Text Area */}
+        <div
+          ref={divRef}
+          contentEditable
+          onInput={handleChange}
+          className="w-full border bg-white px-11 pr-14 py-3 outline-none resize-none transition-all"
+          style={{
+            overflow: 'hidden',
+            minHeight: '40px',
+            maxHeight: '160px',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            overflowWrap: 'break-word',
+            transition: 'border-radius 0.2s ease',
+          }}
+        ></div>
+
+        {/* Placeholder */}
+        {!text.trim() && (
+          <div className="absolute left-11 top-3 text-gray-400 pointer-events-none">
+            Type a message
+          </div>
+        )}
+
+        {/* Emoji Button */}
         <button
-          type="submit"
-          className="absolute right-4 bottom-4 bg-whatsapp-light text-white px-2 py-2 rounded-full hover:bg-[#33dc71]"
+          type="button"
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          className="absolute left-2.5 bottom-3 font-bold text-gray-500 hover:text-green-600"
         >
-          <RiSendPlane2Fill size={23} />
+          <BsEmojiSmileFill size={27} />
         </button>
-      )}
+
+        {/* Emoji Picker */}
+        {showEmojiPicker && (
+          <div className="absolute bottom-14 left-0 z-50">
+            <Picker data={data} onEmojiSelect={handleEmojiSelect} />
+          </div>
+        )}
+
+        {/* Send Button */}
+        {text.trim() && (
+          <button
+            type="submit"
+            className="absolute right-2 bottom-1.5 bg-whatsapp-light text-white p-2 rounded-full hover:bg-[#33dc71]"
+          >
+            <RiSendPlane2Fill size={20} />
+          </button>
+        )}
+      </div>
     </form>
   );
 }

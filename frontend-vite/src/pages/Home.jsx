@@ -19,17 +19,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // if (wa_id) {
-    //   setActiveChat(wa_id);
-    // } else {
-    //   setActiveChat(null);
-    // }
-    if (hasRefreshed) {
-      setActiveChat(null);
-      setHasRefreshed(false);
+    if (wa_id) {
+      setActiveChat(wa_id);
     } else {
-      setActiveChat(wa_id || null);
+      setActiveChat(null);
     }
+    // if (hasRefreshed) {
+    //   setActiveChat(null);
+    //   setHasRefreshed(false);
+    // } else {
+    //   setActiveChat(wa_id || null);
+    // }
   }, [wa_id]);
 
   // Update chat list's last message after sending new message
