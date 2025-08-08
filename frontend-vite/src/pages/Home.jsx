@@ -16,8 +16,12 @@ export default function Home() {
     
   useEffect(() => {
     API.get('/api/chats')
-      .then(res => res.json())
-      .then(data => setChats(data));
+      .then(response => {
+        setChats(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching chats:", error);
+      });
   }, []);
 
   useEffect(() => {
