@@ -4,10 +4,12 @@ const cors = require('cors');
 const messageRoutes = require('../routes/messageRoutes.js');
 
 const app = express();
-app.use(cors());    
+app.use(cors({
+    origin: 'https://whatsapp-hqejckmqb-anshuls-projects-ad041669.vercel.app/',  
+    credentials: true,
+  }));    
 app.use(express.json());
 
-// MongoDB Connection (only connect once in serverless!)
 let isConnected = false;
 
 async function connectDB() {
