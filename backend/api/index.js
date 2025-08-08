@@ -29,7 +29,7 @@ app.get('/api/ping', async (req, res) => {
   res.json({ message: 'pong' });
 });
 
-app.use('/api', async (req, res, next) => {
+app.use('/', async (req, res, next) => {
   await connectDB();
   messageRoutes(req, res, next);  
 });
