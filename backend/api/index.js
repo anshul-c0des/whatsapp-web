@@ -6,13 +6,13 @@ const messageRoutes = require('../routes/messageRoutes');
 const app = express();
 
 app.use(cors({
-  origin: 'https://whatsapp-web-tau.vercel.app',
+  origin: 'https://whatsapp-web-tau.vercel.app',  // frontend url
   credentials: true,
 }));
 
 app.use(express.json());
 
-let isConnected = false;
+let isConnected = false;  // flag to update connection status (prevents multiple connection requests)
 
 async function connectDB() {
   if (isConnected) return;

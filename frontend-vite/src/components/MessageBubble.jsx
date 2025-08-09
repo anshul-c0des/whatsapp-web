@@ -10,7 +10,7 @@ export default function MessageBubble({ message, self }) {
   
   const formattedDateTime = moment(message.timestamp).format('h:mm A');
   
-  const renderStatus = (status) => {
+  const renderStatus = (status) => {  
     switch (status) {
       case 'sent':
         return <TiTick  size={23} className="text-gray-400" />

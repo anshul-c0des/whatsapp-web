@@ -9,11 +9,11 @@ import DarkModeToggle from './DarkModeToggle.jsx';
 import { MoonLoader } from 'react-spinners'; 
 
 export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
-  const [messages, setMessages] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(false); 
+  const [messages, setMessages] = useState([]);   // holds conversation messages
+  const [userInfo, setUserInfo] = useState(null);   // contains name and wa_id of other person
+  const [loading, setLoading] = useState(false);    // loading state
 
-  const fetchMessages = async () => {
+  const fetchMessages = async () => {   // fetches messages for current contact (wa_id)
     try {
       setLoading(true); 
       const res = await API.get(`/api/chats/${wa_id}`);
@@ -28,14 +28,14 @@ export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => {   // Runs fetchMessages() every time the wa_id changes (new chat)
     if (wa_id) fetchMessages();
   }, [wa_id]);
 
   const handleSendMessage = async (text) => {
     if (!text.trim()) return;
 
-    const tempMessage = {
+    const tempMessage = {    // add tempMessage to the UI instantly
       message_id: "temp_" + Date.now(),
       from: "918329446654",
       to: wa_id,
@@ -63,7 +63,7 @@ export default function ChatWindow({ wa_id, onNewMessage, onBack }) {
     }
   };
 
-  const formatDay = (timestamp) => {
+  const formatDay = (timestamp) => {    // format date for badges
     const now = moment();
     const date = moment(timestamp);
 

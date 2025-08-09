@@ -11,12 +11,12 @@ export default function Home() {
   const { wa_id } = useParams();
   const navigate = useNavigate();
 
-  const [chats, setChats] = useState([]);
-  const [activeChat, setActiveChat] = useState(null);
-  const [hasRefreshed, setHasRefreshed] = useState(true);
-  const [loading, setLoading] = useState(true);
+  const [chats, setChats] = useState([]);   // holds all chat threads
+  const [activeChat, setActiveChat] = useState(null);    // currently selected user
+  const [hasRefreshed, setHasRefreshed] = useState(true);   // prevent auto-select on first render
+  const [loading, setLoading] = useState(true);   // loading state
 
-  useEffect(() => {
+  useEffect(() => {   // fetches chat list    
     setLoading(true);
     API.get('/api/chats')
       .then(response => {
@@ -30,7 +30,7 @@ export default function Home() {
       });
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {   // manages which chat window is active based on URL
     if (hasRefreshed) {
       setActiveChat(null);
       setHasRefreshed(false);
@@ -39,7 +39,9 @@ export default function Home() {
     }
   }, [wa_id]);
 
-  const updateLastMessage = (wa_id, newMessage) => {
+  const updateLastMessage = (wa_id, newMessage) => {    // updates last message in chat list
+ // If chat already exists: Update its last message, move to top
+ // If it's a new chat: Add it to top of list
     setChats(prevChats => {
       const chatIndex = prevChats.findIndex(chat => chat.wa_id === wa_id);
       const newLastMessage = {

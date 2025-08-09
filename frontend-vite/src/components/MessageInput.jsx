@@ -5,9 +5,9 @@ import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 
 export default function MessageInput({ onSend }) {
-  const [text, setText] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const divRef = useRef(null);
+  const [text, setText] = useState('');   // actual input text
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);   // emoji picker state
+  const divRef = useRef(null);   // ref to contentEditable div
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,11 +22,11 @@ export default function MessageInput({ onSend }) {
     }
   };
 
-  const handleChange = () => {
+  const handleChange = () => {  // Updates text state every time user types 
     setText(divRef.current.innerText);
   };
 
-  const handleEmojiSelect = (emoji) => {
+  const handleEmojiSelect = (emoji) => {  // inserts emoji in the contentEditable div
     const emojiChar = emoji.native;
     const div = divRef.current;
     const selection = window.getSelection();
@@ -50,11 +50,11 @@ export default function MessageInput({ onSend }) {
   };
 
   useEffect(() => {
-    if (divRef.current) {
-      divRef.current.style.height = 'auto';
+    if (divRef.current) { 
+      divRef.current.style.height = 'auto';    // Adjusts height to fit content
       divRef.current.style.height = `${divRef.current.scrollHeight}px`;
 
-      if (divRef.current.scrollHeight > 62) {
+      if (divRef.current.scrollHeight > 62) {    // Changes border radius depending on height
         divRef.current.classList.remove('rounded-full');
         divRef.current.classList.add('rounded-xl');
       } else {
@@ -64,14 +64,14 @@ export default function MessageInput({ onSend }) {
     }
   }, [text]);
 
-  useEffect(() => {
+  useEffect(() => {    // reset height and roundness on component mount
     if (divRef.current) {
       divRef.current.style.height = '50px';
       divRef.current.classList.add('rounded-full');
     }
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    // adds a placeholder text
     const div = divRef.current;
     if (div && !text) {
       div.setAttribute('data-placeholder', 'Type a message');

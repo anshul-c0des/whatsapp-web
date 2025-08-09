@@ -5,7 +5,7 @@ import { PiUserCircleDuotone } from 'react-icons/pi';
 
 export default function ChatList({ chats, selectedWaId, onSelectChat }) {
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');  // holds search term
   
    // Filter chats by search
   const filteredChats =  chats

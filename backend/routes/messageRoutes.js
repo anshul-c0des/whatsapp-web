@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ProcessedMessage = require('../models/processedMessage');
 
-// GET /api/chats
+// GET /api/chats - fetches the latest message per contact for ChatList
 router.get('/chats', async (req, res) => {
   try {
     const lastMessages = await ProcessedMessage.aggregate([
@@ -31,7 +31,7 @@ router.get('/chats', async (req, res) => {
   }
 });
 
-// GET /api/chats/:wa_id
+// GET /api/chats/:wa_id - return full chat history of a given user
 router.get('/chats/:wa_id', async (req, res) => {
   try {
     const wa_id = req.params.wa_id;
@@ -46,7 +46,7 @@ router.get('/chats/:wa_id', async (req, res) => {
   }
 });
 
-// POST /api/messages
+// POST /api/messages - creates a new message and stores it in mongodb
 router.post('/messages', async (req, res) => {
   try {
     const { wa_id, from, to, text, type, name } = req.body;
@@ -71,7 +71,7 @@ router.post('/messages', async (req, res) => {
   }
 });
 
-// Export a function that forwards requests to the router
+// Exporter function - allows route to be used as a middleware in app.jsx
 module.exports = (req, res, next) => {
   router(req, res, next);
 };
